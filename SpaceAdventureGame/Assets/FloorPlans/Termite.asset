@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 114ad67912964c14b8f9ccc67a1d0e01, type: 3}
+  m_Name: Termite
+  m_EditorClassIdentifier: 
+  ship:
+    shipName: Huntsman
+    walls:
+    - {fileID: 2800000, guid: 867fcb60c8111944a9164f26e8b9bedc, type: 3}
+    floors:
+    - {fileID: 2800000, guid: c4c261abd27e547439403d69daf407a5, type: 3}
+    utilities:
+    - {fileID: 2800000, guid: 867fcb60c8111944a9164f26e8b9bedc, type: 3}

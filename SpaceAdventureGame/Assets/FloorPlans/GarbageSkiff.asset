@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 114ad67912964c14b8f9ccc67a1d0e01, type: 3}
+  m_Name: GarbageSkiff
+  m_EditorClassIdentifier: 
+  ship:
+    shipName: GarbageSkiff
+    walls:
+    - {fileID: 2800000, guid: 1f9643ea5ae6e0840897e16fdb7539a9, type: 3}
+    floors:
+    - {fileID: 2800000, guid: dfc373cb5bedc6d45a7c766d9d4cbfd2, type: 3}
+    utilities:
+    - {fileID: 2800000, guid: 1f9643ea5ae6e0840897e16fdb7539a9, type: 3}

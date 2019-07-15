@@ -5,7 +5,9 @@
 [Bb]uilds/
 AssetStoreTools/
 Plugins/
+
 Old2D*
+*_Data
 # Visual Studio cache directory
 .vs/
 
@@ -43,3 +45,10 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+*.png
+
+!/**/FloorPlans/*.png
+!/**/FloorPlans/*.unity
+!/**/FloorPlans/*.asset
+/**/FloorPlans/[Bb][Bb]35*.*
+

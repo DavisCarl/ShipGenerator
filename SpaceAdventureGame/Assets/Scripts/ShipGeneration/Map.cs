@@ -7,52 +7,47 @@ using System.Threading;
 
 public class Map : MonoBehaviour {
 
-    public Texture2D aFloor, bFloor, aWall, bWall;
+    //public Texture2D aFloor, bFloor, aWall, bWall, aUtility, bUtility;
     public int chunk_size = 64;
+    public ShipScriptableObject shipA, shipB;
+    [HideInInspector]
     public Ship a, b;
     public Material baseMat;
     public int force = 100;
-    public int floors = 3;
+
     List<int> cubeTriangles = new List<int>();
     private List<Vector3> cubeVerts = new List<Vector3>();
-    List<int> quadTriangles = new List<int>();
+    private List<int> quadTriangles = new List<int>();
     private List<Vector3> quadVerts = new List<Vector3>();
     private Dictionary<Vector2Int, ShipTile> mapTiles;
-    int xMax, xMin, yMax, yMin = 0;
-    int tileDimX, tileDimY = 0;
+    private int tileDimX, tileDimY = 0;
     private List<BoxCollider> colliders;
-    Dictionary<Vector2Int, Dictionary<Vector3Int, ShipTile>> chunkTiles;
+    private Dictionary<Vector2Int, Dictionary<Vector3Int, ShipTile>> chunkTiles;
 	// Use this for initialization
 	async void Start () {
-        a = new Ship("Cricket", aWall, aFloor, 0, false);
-        //yield return new WaitForEndOfFrame();
-        Debug.Log("Ship1Done " + Time.realtimeSinceStartup);
-        b = new Ship("Discoverer", bWall, bFloor, 1, true);
-        //yield return new WaitForEndOfFrame();
-        //await a.InitTiles();
-        //await b.InitTiles();
+        a = shipA.ship;
+        b = shipB.ship;
+        a.Read(false, 0);
+        b.Read(Random.Range(0, 100) > 50, 1);
         Debug.Log(a.GetTiles().Count);
         Debug.Log(b.GetTiles().Count);
-        Debug.Log("Ship2Done " + Time.realtimeSinceStartup);
-        //StartCoroutine(InitializeMap(a, b));
-        await new WaitForSeconds(1);
+        Debug.Log("Tiles Gotten: " + Time.realtimeSinceStartup);
         GameObject primitiveData = GameObject.CreatePrimitive(PrimitiveType.Cube);
         cubeTriangles = primitiveData.GetComponent<MeshFilter>().mesh.triangles.ToList();
         cubeVerts = primitiveData.GetComponent<MeshFilter>().mesh.vertices.ToList();
         GameObject quadData = GameObject.CreatePrimitive(PrimitiveType.Quad);
         quadTriangles = quadData.GetComponent<MeshFilter>().mesh.triangles.ToList();
         quadVerts = quadData.GetComponent<MeshFilter>().mesh.vertices.ToList();
+        for (int i = 0; i < cubeVerts.Count; i++)
+        {
+            if(cubeVerts[i].y > 0)
+            {
+                cubeVerts[i] = new Vector3(cubeVerts[i].x, cubeVerts[i].y * 2, cubeVerts[i].z);
+            }
+        }
         for (int i = 0; i < quadVerts.Count; i++)
         {
             quadVerts[i] = new Vector3(quadVerts[i].x, 0, quadVerts[i].y);
-            //switch (i)
-            //{
-            //    case 0: quadVerts[i].Set(0, 0, 0); Debug.Log("Vert 0" + quadVerts[i]); break;
-            //    case 1: quadVerts[i].Set(0, 0, 1); Debug.Log("Vert 1" + quadVerts[i]); break;
-            //    case 2: quadVerts[i].Set(1, 0, 1); Debug.Log("Vert 2" + quadVerts[i]); break;
-            //    case 3: quadVerts[i].Set(1, 0, 0); Debug.Log("Vert 3" + quadVerts[i]); break;
-            //}
-            
         }
         Destroy(primitiveData);
         Destroy(quadData);
@@ -77,21 +72,16 @@ public class Map : MonoBehaviour {
         Vector2Int currentChunk;
         foreach(ShipTile t in a.GetTiles())
         {
-            for (int i = 0; i < floors; i++)
-            {
-                ShipTile newT = new ShipTile(t);
-                currentChunk = ChunkFinder(newT.location);
-                newT.location.z = i;
+                currentChunk = ChunkFinder(t.location);
                 if (chunkTiles.ContainsKey(currentChunk))
                 {
-                    chunkTiles[currentChunk][newT.location] = newT;
+                    chunkTiles[currentChunk][t.location] = t;
                 }
                 else
                 {
                     chunkTiles.Add(currentChunk, new Dictionary<Vector3Int, ShipTile>());
-                    chunkTiles[currentChunk][newT.location] = newT;
+                    chunkTiles[currentChunk][t.location] = t;
                 }
-            }
         }
         Debug.Log("Ship 1 Inited: " + Time.realtimeSinceStartup);
         await new WaitForSeconds(1);
@@ -99,14 +89,8 @@ public class Map : MonoBehaviour {
         List<ShipTile> tilesToMove = new List<ShipTile>();
         foreach (ShipTile t in b.GetTiles())
         {
-            for(int i = 0; i < floors; i++)
-            {
-                ShipTile newT = new ShipTile(t);
-                newT.location += offset;
-                newT.location.z = i;
-                newT.floor = i;
-                tilesToMove.Add(newT);
-            }
+                t.location += offset;
+                tilesToMove.Add(t);
         }
         tilesToMove.OrderBy(o => o.location.x).ThenBy(o => o.location.y).ThenBy(o=>o.location.z);
         Dictionary<Vector2Int, List<ShipTile>> rows = new Dictionary<Vector2Int, List<ShipTile>>();
@@ -209,8 +193,6 @@ public class Map : MonoBehaviour {
                                         newTilesToMove[i][1].location -= Vector3Int.right * (dists[i] - 1);//tip.location;//  += Vector3Int.right;
                                     }
                                     chunkTiles[currentChunk][ot.location].strength = ft.strength;
-                                    if (ft.strength <= 0)
-                                    { chunkTiles[currentChunk].Remove(ot.location); }
                                     newTilesToMove[i].RemoveAt(0);
                                 }
                                 else
@@ -254,7 +236,6 @@ public class Map : MonoBehaviour {
     private async Task<List<BasicMeshData>> BasicMeshDataset(List<Dictionary<Vector3Int, ShipTile>> inputList)
     {
         await new WaitForBackgroundThread();
-        UnityEngine.Debug.Log("Chunk List Threader: " + Thread.CurrentThread.ManagedThreadId);
         List<Task> dataTasks = new List<Task>();
         List<BasicMeshData> data = new List<BasicMeshData>();
         foreach(Dictionary<Vector3Int, ShipTile> dict in inputList)
@@ -363,6 +344,6 @@ public class Map : MonoBehaviour {
             filter.mesh = m;
             MeshCollider col = chunkObj.AddComponent<MeshCollider>();
         }
-        Debug.Log("Generated: " + Time.realtimeSinceStartup);
+        Debug.Log("Generated: " + (Time.realtimeSinceStartup - ct));
     }
 }
