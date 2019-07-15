@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 114ad67912964c14b8f9ccc67a1d0e01, type: 3}
+  m_Script: {fileID: 11500000, guid: 9300ea4bcdc474342a0df9e00d021d5a, type: 3}
   m_Name: GarbageSkiff
   m_EditorClassIdentifier: 
   ship:
-    shipName: GarbageSkiff
+    shipName: Garbage Skiff
     walls:
-    - {fileID: 2800000, guid: 1f9643ea5ae6e0840897e16fdb7539a9, type: 3}
+    - {fileID: 2800000, guid: e3938c760208f6f4e89df023e8e2ad98, type: 3}
     floors:
-    - {fileID: 2800000, guid: dfc373cb5bedc6d45a7c766d9d4cbfd2, type: 3}
+    - {fileID: 2800000, guid: 5537e2f244f53cd4aa4a463112d85319, type: 3}
     utilities:
-    - {fileID: 2800000, guid: 1f9643ea5ae6e0840897e16fdb7539a9, type: 3}
+    - {fileID: 2800000, guid: e3938c760208f6f4e89df023e8e2ad98, type: 3}

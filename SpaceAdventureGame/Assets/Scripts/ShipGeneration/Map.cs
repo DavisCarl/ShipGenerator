@@ -35,22 +35,22 @@ public class Map : MonoBehaviour {
         GameObject primitiveData = GameObject.CreatePrimitive(PrimitiveType.Cube);
         cubeTriangles = primitiveData.GetComponent<MeshFilter>().mesh.triangles.ToList();
         cubeVerts = primitiveData.GetComponent<MeshFilter>().mesh.vertices.ToList();
-        GameObject quadData = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        quadTriangles = quadData.GetComponent<MeshFilter>().mesh.triangles.ToList();
-        quadVerts = quadData.GetComponent<MeshFilter>().mesh.vertices.ToList();
+        //GameObject quadData = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        quadTriangles = primitiveData.GetComponent<MeshFilter>().mesh.triangles.ToList();
+        quadVerts = primitiveData.GetComponent<MeshFilter>().mesh.vertices.ToList();
         for (int i = 0; i < cubeVerts.Count; i++)
         {
             if(cubeVerts[i].y > 0)
             {
-                cubeVerts[i] = new Vector3(cubeVerts[i].x, cubeVerts[i].y * 2, cubeVerts[i].z);
+                cubeVerts[i] = new Vector3(cubeVerts[i].x, 3, cubeVerts[i].z);
             }
         }
         for (int i = 0; i < quadVerts.Count; i++)
         {
-            quadVerts[i] = new Vector3(quadVerts[i].x, 0, quadVerts[i].y);
+                quadVerts[i] = new Vector3(quadVerts[i].x, quadVerts[i].y * .01f, quadVerts[i].z);
         }
         Destroy(primitiveData);
-        Destroy(quadData);
+        //Destroy(quadData);
         await InitializeMap(a, b);
     }
 
@@ -111,6 +111,7 @@ public class Map : MonoBehaviour {
             {
                 rows[key].Add(t);
             }
+            
         }
         foreach(List<ShipTile> tiles in rows.Values)
         {
@@ -253,13 +254,13 @@ public class Map : MonoBehaviour {
         Vector3 adjustment = (Vector3.up) / 2;
             foreach (ShipTile tile in inChunk.Values)
             {
-                Vector3 pos = new Vector3(tile.location.x, tile.location.z*2, tile.location.y);
+                Vector3 pos = new Vector3(tile.location.x, tile.location.z, tile.location.y);
                 int firstVert = vertices.Count;
                 if (tile.wall)
                 {
                     foreach (Vector3 v in cubeVerts)
                     {
-                        vertices.Add(v + pos + adjustment);
+                        vertices.Add(v + pos);
                         colors.Add(tile.col);
                     }
                     foreach (int t in cubeTriangles)

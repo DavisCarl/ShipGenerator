@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 public class Ship
 {
     public string shipName = "Argos";
-    public Texture2D[] walls, floors, utilities;
+    public Texture2D[] walls = new Texture2D[1];
+    public Texture2D[] floors = new Texture2D[1];
+    public Texture2D[] utilities = new Texture2D[1];
     private List<ShipTile> tiles = new List<ShipTile>();
     private List<UtilityTile> utilityTiles = new List<UtilityTile>();
 
@@ -33,6 +35,7 @@ public class Ship
                 for (int y = 0; y < walls[i].height; y++)
                 {
                     //col = Color.black;
+                    loc.z = i * 3;
                     col = wallTexColors[x + (y * walls[i].width)];
                     if (!rotate)
                     {
@@ -169,6 +172,7 @@ public class Ship
                 {
                     //col = Color.black;
                     col = wallTexColors[x + (y * walls[i].width)];
+                    loc.z = i * 3;
                     t = null;
                     if (!rotate)
                     {

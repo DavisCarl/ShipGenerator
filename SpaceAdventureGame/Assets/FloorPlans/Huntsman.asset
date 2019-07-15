@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 114ad67912964c14b8f9ccc67a1d0e01, type: 3}
+  m_Script: {fileID: 11500000, guid: 9300ea4bcdc474342a0df9e00d021d5a, type: 3}
   m_Name: Huntsman
   m_EditorClassIdentifier: 
   ship:
     shipName: Huntsman
     walls:
-    - {fileID: 2800000, guid: e5e193f935a54924e8dbaaab13380fdb, type: 3}
+    - {fileID: 2800000, guid: 2641ae0b0c512dc40a3939b64fd5107f, type: 3}
     floors:
-    - {fileID: 2800000, guid: fa6d5e197d4fa834daf7aa035d451155, type: 3}
+    - {fileID: 2800000, guid: 89ab61dfa12cb9b4683f3fd350c59cd0, type: 3}
     utilities:
-    - {fileID: 2800000, guid: e5e193f935a54924e8dbaaab13380fdb, type: 3}
+    - {fileID: 2800000, guid: 2641ae0b0c512dc40a3939b64fd5107f, type: 3}
